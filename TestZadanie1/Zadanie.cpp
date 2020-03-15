@@ -1,39 +1,56 @@
 ﻿// Zadanie.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 //
 
-#include <iostream>
-#include <fstream>
-#include <string>
-using namespace std;
+#include "Header.h"
+
 
 int main()
 {
+    setlocale(LC_ALL, "Russian");
     const int d = 17;
     char datetime[d];
-   string a;
+    string a;
+    int i = 0, j, k;
+    unsigned int aa[7] = { 0 }, sam = 0;
+    unsigned int res = 0;
     ifstream file ;
     file.open("E:\data.txt");
-    if (!file) cout << "OpenError" << '\n';
+    if (!file) cout << "При открытии файла возникла ошибка!" << '\n';
     else
     {
 
-        cout << "Vse OK" << '\n'<<'\n';
+        cout << "Файл был открыт!" << '\n'<<'\n';
         file.get(datetime, d);
         cout << datetime << '\n' << '\n';
-        while (!file.eof())
+       
+            for ( i ; i < 7; i++)
+            {
+                file >> a;
+                aa[i] = (unsigned int)atoll(a.c_str());
+                if (i < 6)
+                {
+                    sam += aa[i];
+                    cout << aa[i] << '\n';
+                }
+            }
+       
+
+        std::hash <unsigned int> hashsum;
+        res = hashsum(sam);
+        if (aa[6] - res != 0)
         {
-            file >> a;
-            cout << a << '\n';
-        
+            cout << '\n' << "Hash не соответствует" << '\n' << '\n';
         }
-        return -1;
+        else
+            cout << '\n' << "Hash соответствует" << '\n' << '\n';
+      /*  return 1;*/
     }
     
 
     
 
-file.close();
-return 0;
+    file.close();
+    return 0;
 }
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
 // Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
