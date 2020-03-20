@@ -48,7 +48,7 @@ int main()
         }
         else
             cout << '\n' << "Hash соответствует" << '\n' << '\n';
-      /*  return 1;*/
+      
     }
     
     file.close();
@@ -94,29 +94,17 @@ int main()
         for (int i = 0; i < 8; i++)
         {
             Chislo *= 2;
-            Chislo += (int)dataaa[i] - '0';  // '0'-'0' равно 0, '1'-'0' Равно 1
+            Chislo += (int)dataaa[i] - '0';  
         }
         s = Chislo;
         cout  << s ;
         
     }
 
-   /* for (j = 7; j >0; j--)
-    {
-        int dd= dataa[j];
-        
-        
-        for (int i = 0; i < 8; i++)
-        {
-           dataa[7 - i] = (dd >> i) & 0x01;
+  
 
 
-        }*/
-   
-   /* }
-
-
-    filebin.close();*/
+    file.close();
    
 
    
