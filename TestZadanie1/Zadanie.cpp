@@ -52,6 +52,7 @@ int main()
     }
     
     file.close();
+
     
     string databin;
     
@@ -68,18 +69,57 @@ int main()
         {
             mass[7 -i] = (dd >> i) & 0x01;
 
-            /*cout << mass[7- i];*/
+           
             filebin << mass[7-i] ;
         }
         
         
         filebin << '\n';
     }
-    filebin.close()
+    filebin.close();
+
+
+    string dataa;
+    char s;
+    char dataaa[8] = {' 0' };
+    file.open("E:\databin.txt");
+    while (!file.eof())
+    {
+        file >> dataa;
+        int Chislo = 0;
+        for (int j = 1; j < 8; j++)
+        {
+            dataaa[j] = dataa[7 - j];
+        }
+        for (int i = 0; i < 8; i++)
+        {
+            Chislo *= 2;
+            Chislo += (int)dataaa[i] - '0';  // '0'-'0' равно 0, '1'-'0' Равно 1
+        }
+        s = Chislo;
+        cout  << s ;
+        
+    }
+
+   /* for (j = 7; j >0; j--)
+    {
+        int dd= dataa[j];
+        
+        
+        for (int i = 0; i < 8; i++)
+        {
+           dataa[7 - i] = (dd >> i) & 0x01;
+
+
+        }*/
+   
+   /* }
+
+
+    filebin.close();*/
    
 
    
-
 
 
 
