@@ -9,109 +9,65 @@
 
 int main()
 {
-  
-    unsigned int aa[7] = { 0 };
     setlocale(LC_ALL, "Russian");
     const int d = 17;
-     char datetime[d];
-    string a;
-    int i = 0, j, k;
-    unsigned int  sam = 0;
-    unsigned int res = 0;
-    ifstream file ;
-    file.open("E:\data.txt");
+    unsigned int  sam = 0, res = 0;
+
+    struct Row
+    {
+        string strdt;
+        unsigned int intdt[9] = { 0 }; 
+    };
+    Row one, two;
+  
+    ifstream file("E:\data.txt");
+    ofstream filebin("E:\databin.txt", ios::binary | ios::out);
+    ifstream filebinopen("E:\databin.txt", ios::binary | ios::in);
+        
     if (!file) cout << "При открытии файла возникла ошибка!" << '\n';
     else
     {
 
         cout << "Файл был открыт!" << '\n'<<'\n';
-        file.get(datetime, d);
-        cout << datetime << '\n' << '\n';
+        
        
-            for ( i ; i < 7; i++)
+            for (int i=0 ; i < 9; i++)
             {
-                file >> a;
-                aa[i] = (unsigned int)atoll(a.c_str());
-                if (i < 6)
+                file >> one.strdt;
+                one.intdt[i] = (unsigned int)atoll(one.strdt.c_str());
+                filebin.write(reinterpret_cast<char*>(&one.intdt[i]), sizeof(one.intdt[i]));
+                if (i < 2)
                 {
-                    sam += aa[i];
-                    cout << aa[i] << '\n';
-                } 
+                    cout << one.intdt[i] << '\t';
+                }
+                else
+                    cout << '\n' << one.intdt[i];
+                if ( i > 1 & i < 8)
+                {
+                    sam += one.intdt[i];
+                   
+                    
+                }    
             }
-       
-
         std::hash <unsigned int> hashsum;
         res = hashsum(sam);
-        if (aa[6] - res != 0)
+        if (one.intdt[8] - res != 0)
         {
-            cout << '\n' << "Hash не соответствует" << '\n' << '\n';
+            cout << '\n' << '\n' << "Hash не соответствует" << '\n' << '\n';
         }
         else
-            cout << '\n' << "Hash соответствует" << '\n' << '\n';
-      
+            cout << '\n' << '\n' << "Hash соответствует" << '\n' << '\n';
     }
     
     file.close();
-
-    
-    string databin;
-    
-    file.open("E:\data.txt");
-    getline(file, databin);
-    file.close();
-    ofstream filebin("E:\databin.txt", ios::binary | ios::out);
-
-    for (j = 0; j < size(databin); j++)
-    {
-        int mass[8] = { 0 };
-        int dd = (int)databin[j];
-        for (int i = 0; i < 8; i++)
-        {
-            mass[7 -i] = (dd >> i) & 0x01;
-
-           
-            filebin << mass[7-i] ;
-        }
-        
-        
-        filebin << '\n';
-    }
     filebin.close();
 
+    cout << "Данные бинарного файла" << '\n';
 
-    string dataa;
-    char s;
-    char dataaa[8] = {' 0' };
-    file.open("E:\databin.txt");
-    while (!file.eof())
+    for (int i = 0; i < 9; i++)
     {
-        file >> dataa;
-        int Chislo = 0;
-        for (int j = 1; j < 8; j++)
-        {
-            dataaa[j] = dataa[7 - j];
-        }
-        for (int i = 0; i < 8; i++)
-        {
-            Chislo *= 2;
-            Chislo += (int)dataaa[i] - '0';  
-        }
-        s = Chislo;
-        cout  << s ;
-        
+        filebinopen.read(reinterpret_cast<char*>(&two.intdt[i]), sizeof(two.intdt[i]));
+        cout << two.intdt[i] << '\t';
     }
-
-  
-
-
-    file.close();
-   
-
-   
-
-
-
-
-
-    return 0;
+  return 0;
 }
